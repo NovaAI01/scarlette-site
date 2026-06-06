@@ -41,5 +41,5 @@ For Cloudflare Pages, deploy as a static site:
 
 ## Outreach Checklist
 
-Verify `hello@scarlettecreations.com` works before sending the site to business
-owners.
+Configure `hello@scarlettecreations.com` via Cloudflare Email Routing, then
+verify it works before sending the site to business owners.
