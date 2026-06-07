@@ -402,16 +402,21 @@ h3 {
 
 .honeypot-field {
   position: absolute;
-  left: -10000px;
   width: 1px;
   height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: 1fr;
+  gap: 20px;
 }
 
 .review-form label {
@@ -422,12 +427,13 @@ h3 {
 }
 
 .full-field {
-  grid-column: 1 / -1;
+  grid-column: auto;
 }
 
 .review-form input,
 .review-form textarea {
   width: 100%;
+  max-width: 100%;
   border: 1px solid var(--line);
   border-radius: 6px;
   background: #111318;
@@ -442,7 +448,7 @@ h3 {
 }
 
 .review-form textarea {
-  min-height: 116px;
+  min-height: 140px;
   padding: 12px;
   resize: vertical;
 }
@@ -461,7 +467,10 @@ h3 {
 }
 
 .cf-turnstile {
-  margin: 20px 0 18px;
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 22px;
+  overflow: hidden;
 }
 
 .form-status {
