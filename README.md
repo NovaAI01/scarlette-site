@@ -22,6 +22,8 @@ or one task type.
 - `styles.css` - responsive visual styling
 - `script.js` - progressive form submission enhancement
 - `functions/api/task-review.js` - Cloudflare Pages Function form handler
+- `functions/api/task-review-status.js` - internal status and note update handler
+- `functions/admin/submissions.js` - internal task review submissions page
 - `schema.sql` - D1 table schema for captured task reviews
 - `README.md` - project notes and preview instructions
 
@@ -54,6 +56,8 @@ form:
 
 - `DB`
 - `TURNSTILE_SECRET_KEY`
+- `ADMIN_USERNAME`
+- `ADMIN_PASSWORD`
 
 Replace the public Turnstile placeholder in `index.html` before launch:
 
@@ -68,6 +72,19 @@ settings before testing the live form.
 
 `project_events` stores audit events. Every successful form submission writes a
 `submission_received` event after the task review row is captured.
+
+`task_review_notes` stores internal notes for task review submissions.
+
+Task review statuses are:
+
+- `new`
+- `reviewing`
+- `quoted`
+- `won`
+- `lost`
+
+The internal status update form writes a `task_review_status_updated` event to
+`project_events`.
 
 Create the D1 database:
 
@@ -99,3 +116,16 @@ DB
 ## Outreach Checklist
 
 Verify the form stores a row in D1 before sending the site to business owners.
+
+## Internal Admin
+
+`/admin/submissions` shows the latest task review submissions and lets you update
+status or add a note.
+
+`/admin/submissions` is protected by Basic Auth.
+
+`/api/task-review-status` is also protected by Basic Auth.
+
+`/api/task-review` remains public for customer form submissions.
+
+Do not share the admin URL publicly.
