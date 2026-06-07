@@ -1,0 +1,10 @@
+CREATE TABLE task_reviews (
+id INTEGER PRIMARY KEY AUTOINCREMENT,
+created_at TEXT NOT NULL,
+name TEXT NOT NULL,
+email TEXT NOT NULL,
+task TEXT NOT NULL,
+tools TEXT,
+problems TEXT,
+status TEXT NOT NULL DEFAULT 'new'
+);

@@ -9,6 +9,8 @@
       content="Scarlette helps small businesses get rid of one repeated computer task with a small working automation."
     >
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <main>
@@ -29,7 +31,7 @@
               You do not need to know what to automate. Just describe the annoying repeated task.
             </p>
             <div class="hero-actions">
-              <a class="button" href="mailto:hello@scarlettecreations.com?subject=Free%20task%20review&amp;body=Hi%20Jack%2C%0a%0aI%20want%20a%20free%20task%20review.%0a%0aEvery%20week%20we%20have%20to%3A%0a%0aThe%20tools%20or%20files%20involved%20are%3A%0a%0aWhat%20usually%20goes%20wrong%20is%3A%0a%0aThanks%2C">Get a free task review</a>
+              <a class="button" href="#task-review-form">Get a free task review</a>
               <p>Free task review. Builds from £250. No passwords needed. No live changes without review.</p>
             </div>
           </div>
@@ -172,18 +174,74 @@
       </section>
 
       <section class="section contact">
-        <div class="wrap contact-panel">
-          <div>
-            <p class="eyebrow">Start the sprint</p>
-            <h2>Get a free task review</h2>
-            <p>
-              Tell me about one annoying computer task your business repeats.
-              It can be something you copy, check, sort, rename, update, chase,
-              or report.
-            </p>
-            <p class="helper-line">Not sure what to write? Start with: ‘Every week we have to…’</p>
+        <div class="wrap contact-layout">
+          <div class="contact-panel">
+            <div>
+              <p class="eyebrow">Start the sprint</p>
+              <h2>Get a free task review</h2>
+              <p>
+                Tell me about one annoying computer task your business repeats.
+                It can be something you copy, check, sort, rename, update, chase,
+                or report.
+              </p>
+              <p class="helper-line">Not sure what to write? Start with: "Every week we have to..."</p>
+            </div>
+            <a class="button" href="#task-review-form">Get a free task review</a>
           </div>
-          <a class="button" href="mailto:hello@scarlettecreations.com?subject=Free%20task%20review&amp;body=Hi%20Jack%2C%0a%0aI%20want%20a%20free%20task%20review.%0a%0aEvery%20week%20we%20have%20to%3A%0a%0aThe%20tools%20or%20files%20involved%20are%3A%0a%0aWhat%20usually%20goes%20wrong%20is%3A%0a%0aThanks%2C">Get a free task review</a>
+
+          <form
+            id="task-review-form"
+            class="review-form"
+            action="/api/task-review"
+            method="POST"
+          >
+            <div class="honeypot-field" aria-hidden="true">
+              <label>
+                <span>Company website</span>
+                <input
+                  type="text"
+                  name="company_website"
+                  tabindex="-1"
+                  autocomplete="off"
+                >
+              </label>
+            </div>
+
+            <div class="form-grid">
+              <label>
+                <span>Name</span>
+                <input type="text" name="name" autocomplete="name" maxlength="120" required>
+              </label>
+
+              <label>
+                <span>Email</span>
+                <input type="email" name="email" autocomplete="email" maxlength="200" required>
+              </label>
+
+              <label class="full-field">
+                <span>Every week we have to...</span>
+                <textarea name="task" rows="5" maxlength="2000" required></textarea>
+              </label>
+
+              <label class="full-field">
+                <span>Tools/files involved</span>
+                <textarea name="tools" rows="4" maxlength="1500"></textarea>
+              </label>
+
+              <label class="full-field">
+                <span>What usually goes wrong</span>
+                <textarea name="problems" rows="4" maxlength="1500"></textarea>
+              </label>
+            </div>
+
+            <p class="form-note">
+              This form sends your task description for review. No passwords or live system access needed.
+            </p>
+
+            <div class="cf-turnstile" data-sitekey="0x4AAAAAADgAjTNpnOhXFyg0"></div>
+            <button class="button" type="submit">Send for review</button>
+            <p id="form-status" class="form-status" aria-live="polite"></p>
+          </form>
         </div>
       </section>
     </main>
