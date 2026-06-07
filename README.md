@@ -25,7 +25,16 @@ or one task type.
 - `functions/api/task-review-status.js` - internal status and note update handler
 - `functions/admin/submissions.js` - internal task review submissions page
 - `schema.sql` - D1 table schema for captured task reviews
+- `robots.txt` - crawler policy and sitemap location
+- `sitemap.xml` - canonical public URL for search engines
 - `README.md` - project notes and preview instructions
+
+## SEO
+
+`index.html` includes the page title, meta description, canonical URL, Open
+Graph tags, and Twitter card tags for search and sharing previews.
+
+`robots.txt` allows crawling and points search engines to `sitemap.xml`.
 
 ## Form Flow
 
