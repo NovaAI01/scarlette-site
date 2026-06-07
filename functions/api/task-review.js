@@ -72,16 +72,32 @@ export async function onRequest(context) {
     return respond(request, 500, false, "Submission storage is not configured yet.");
   }
 
+  const createdAt = new Date().toISOString();
+  let taskReviewId;
+
   try {
-    await env.DB.prepare(
+    const result = await env.DB.prepare(
       `INSERT INTO task_reviews
         (created_at, name, email, task, tools, problems, status)
         VALUES (?, ?, ?, ?, ?, ?, ?)`
     )
-      .bind(new Date().toISOString(), fields.name, fields.email, fields.task, fields.tools, fields.problems, "new")
+      .bind(createdAt, fields.name, fields.email, fields.task, fields.tools, fields.problems, "new")
       .run();
+    taskReviewId = result.meta?.last_row_id;
   } catch (error) {
     return respond(request, 500, false, DEFAULT_ERROR_MESSAGE);
+  }
+
+  try {
+    await env.DB.prepare(
+      `INSERT INTO project_events
+        (created_at, event_type, details)
+        VALUES (?, ?, ?)`
+    )
+      .bind(createdAt, "submission_received", buildSubmissionEventDetails(fields, taskReviewId))
+      .run();
+  } catch (error) {
+    console.error("Failed to insert project event", error);
   }
 
   return respond(request, 200, true, SUCCESS_MESSAGE);
@@ -98,6 +114,20 @@ function hasTooLongField(fields) {
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function buildSubmissionEventDetails(fields, taskReviewId) {
+  const details = {
+    email: fields.email,
+    name: fields.name,
+    source: "scarlettecreations.com",
+  };
+
+  if (taskReviewId) {
+    details.task_review_id = taskReviewId;
+  }
+
+  return JSON.stringify(details);
 }
 
 async function verifyTurnstileToken({ secret, token, remoteIp }) {

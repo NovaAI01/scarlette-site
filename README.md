@@ -64,6 +64,11 @@ settings before testing the live form.
 
 ## D1 Setup
 
+`task_reviews` stores task review form submissions.
+
+`project_events` stores audit events. Every successful form submission writes a
+`submission_received` event after the task review row is captured.
+
 Create the D1 database:
 
 ```bash
